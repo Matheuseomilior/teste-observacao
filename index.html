@@ -9,7 +9,7 @@
       text-align: center;
       padding: 50px;
       background-color: #f0f0f0;
-      overflow: hidden; /* evita rolagem */
+      overflow: hidden;
     }
 
     #start-btn {
@@ -32,12 +32,11 @@
     }
 
     img {
-      max-width: 100%;
-      max-height: 100vh;
-      height: auto;
+      width: 100px;
+      height: 100px;
       display: block;
       margin: 0 auto;
-      border-radius: 12px;
+      border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
@@ -63,7 +62,7 @@
 
     startBtn.addEventListener('click', () => {
       startBtn.style.display = 'none';
-      introText.style.display = 'none';
+      introText.remove(); // remove o cabeçalho completamente
       message.textContent = '';
       imageContainer.innerHTML = '';
 
