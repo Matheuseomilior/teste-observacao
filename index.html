@@ -9,6 +9,7 @@
       text-align: center;
       padding: 50px;
       background-color: #f0f0f0;
+      overflow: hidden; /* evita rolagem */
     }
 
     #start-btn {
@@ -31,9 +32,9 @@
     }
 
     img {
-      width: 90vw;
+      max-width: 100%;
+      max-height: 80vh;
       height: auto;
-      max-height: none;
       display: block;
       margin: 0 auto;
       border-radius: 12px;
@@ -61,13 +62,11 @@
     const introText = document.getElementById('intro-text');
 
     startBtn.addEventListener('click', () => {
-      // esconder botão e texto inicial
       startBtn.style.display = 'none';
       introText.style.display = 'none';
       message.textContent = '';
       imageContainer.innerHTML = '';
 
-      // criar imagem
       const img = document.createElement('img');
       img.src = 'https://i.imgur.com/RfYHTFn.jpeg';
       img.alt = 'Imagem de observação';
@@ -76,7 +75,6 @@
       };
       imageContainer.appendChild(img);
 
-      // remover imagem após 1 minuto
       setTimeout(() => {
         imageContainer.innerHTML = '';
         message.textContent = 'A imagem não está mais disponível.';
