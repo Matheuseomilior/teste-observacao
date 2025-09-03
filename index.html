@@ -31,10 +31,13 @@
     }
 
     img {
-      max-width: 100%;
-      max-height: 80vh;
+      width: 90vw;
+      height: auto;
+      max-height: none;
       display: block;
       margin: 0 auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     #message {
@@ -45,7 +48,7 @@
   </style>
 </head>
 <body>
-  <h1>Você terá 1 minuto para observar a imagem.</h1>
+  <h1 id="intro-text">Você terá 1 minuto para observar a imagem.</h1>
   <button id="start-btn">Iniciar</button>
 
   <div id="image-container"></div>
@@ -55,23 +58,29 @@
     const startBtn = document.getElementById('start-btn');
     const imageContainer = document.getElementById('image-container');
     const message = document.getElementById('message');
+    const introText = document.getElementById('intro-text');
 
     startBtn.addEventListener('click', () => {
-      // esconder botão e limpar mensagens/imagem anterior
+      // esconder botão e texto inicial
       startBtn.style.display = 'none';
+      introText.style.display = 'none';
       message.textContent = '';
       imageContainer.innerHTML = '';
 
       // criar imagem
       const img = document.createElement('img');
-      img.src = 'https://i.imgur.com/RfYHTFn.jpeg'; // link direto da imagem
+      img.src = 'https://i.imgur.com/RfYHTFn.jpeg';
+      img.alt = 'Imagem de observação';
+      img.onerror = () => {
+        message.textContent = 'Falha ao carregar a imagem.';
+      };
       imageContainer.appendChild(img);
 
-      // remover após 1 min
+      // remover imagem após 1 minuto
       setTimeout(() => {
         imageContainer.innerHTML = '';
         message.textContent = 'A imagem não está mais disponível.';
-      }, 60000); // 1 minuto
+      }, 60000);
     });
   </script>
 </body>
