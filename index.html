@@ -18,11 +18,14 @@
       padding: 20px;
     }
 
+    h1, h2 {
+      font-weight: 400;
+      color: #333;
+    }
+
     h1 {
       font-size: 28px;
-      color: #333;
       margin-bottom: 30px;
-      font-weight: 400;
     }
 
     #start-btn {
@@ -64,6 +67,29 @@
       font-family: 'Poppins', Arial, sans-serif;
       font-weight: 400;
     }
+
+    #quiz-container {
+      margin-top: 30px;
+      display: none;
+      font-family: 'Poppins', Arial, sans-serif;
+    }
+
+    .quiz-btn {
+      margin: 10px;
+      padding: 12px 24px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      font-family: 'Poppins', Arial, sans-serif;
+      transition: background-color 0.3s ease;
+    }
+
+    .quiz-btn:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
@@ -72,12 +98,83 @@
 
   <div id="image-container"></div>
   <div id="message"></div>
+  <div id="quiz-container"></div>
 
   <script>
     const startBtn = document.getElementById('start-btn');
     const imageContainer = document.getElementById('image-container');
     const message = document.getElementById('message');
     const introText = document.getElementById('intro-text');
+    const quizContainer = document.getElementById('quiz-container');
+
+    const questions = [
+      {
+        question: "Existe algum esquilo usando óculos?",
+        options: ["Sim, todos", "Não", "Apenas um", "Apenas dois"],
+        answer: 0
+      },
+      {
+        question: "Há algum esquilo que se repete 3 vezes?",
+        options: ["Sim", "Não", "Talvez", "Não é possível saber"],
+        answer: 1
+      },
+      {
+        question: "Quantos esquilos estão usando chapéu de bruxa?",
+        options: ["1", "2", "3", "Nenhum"],
+        answer: 1
+      },
+      {
+        question: "O esquilo com chapéu de Chef de Cozinha está com sorriso?",
+        options: ["Sem sorriso", "Com sorriso", "Não aparece", "Está de costas"],
+        answer: 1
+      },
+      {
+        question: "Existem dois esquilos com chapéu de Papai Noel.",
+        options: ["Verdadeiro", "Falso"],
+        answer: 1
+      },
+      {
+        question: "Quantos esquilos estão com headset?",
+        options: ["1", "2", "3", "4"],
+        answer: 2
+      },
+      {
+        question: "Existe um Allen com dentes de vampiro?",
+        options: ["Sim", "Não"],
+        answer: 1
+      },
+      {
+        question: "Existe um esquilo com os olhos fechados?",
+        options: ["Verdadeiro", "Falso"],
+        answer: 1
+      }
+    ];
+
+    let currentQuestion = 0;
+
+    function showQuestion(index) {
+      quizContainer.innerHTML = '';
+      const q = questions[index];
+
+      const questionEl = document.createElement('h2');
+      questionEl.textContent = q.question;
+      quizContainer.appendChild(questionEl);
+
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.className = 'quiz-btn';
+        btn.onclick = () => {
+          currentQuestion++;
+          if (currentQuestion < questions.length) {
+            showQuestion(currentQuestion);
+          } else {
+            quizContainer.innerHTML = '<h2>Quiz finalizado! 🎉</h2>';
+          }
+        };
+        quizContainer.appendChild(btn);
+      });
+    }
 
     startBtn.addEventListener('click', () => {
       startBtn.style.display = 'none';
@@ -95,7 +192,9 @@
 
       setTimeout(() => {
         imageContainer.innerHTML = '';
-        message.textContent = 'A imagem não está mais disponível.';
+        message.textContent = '';
+        quizContainer.style.display = 'block';
+        showQuestion(currentQuestion);
       }, 60000);
     });
   </script>
