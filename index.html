@@ -57,12 +57,17 @@
     const message = document.getElementById('message');
 
     startBtn.addEventListener('click', () => {
+      // esconder botão e limpar mensagens/imagem anterior
       startBtn.style.display = 'none';
       message.textContent = '';
+      imageContainer.innerHTML = '';
+
+      // criar imagem
       const img = document.createElement('img');
-      img.src = 'https://i.imgur.com/n14vwHf.jpg; // novo link direto da imagem
+      img.src = 'https://i.imgur.com/n14vwHf.jpeg'; // link direto da imagem
       imageContainer.appendChild(img);
 
+      // remover após 1 min
       setTimeout(() => {
         imageContainer.innerHTML = '';
         message.textContent = 'A imagem não está mais disponível.';
