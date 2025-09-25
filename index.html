@@ -78,8 +78,9 @@
     const imageContainer = document.getElementById('image-container');
     const message = document.getElementById('message');
     const introText = document.getElementById('intro-text');
+    const TEMPO_LIMITE = 60000; // 1 minuto
 
-    startBtn.addEventListener('click', () => {
+    function mostrarImagem() {
       startBtn.style.display = 'none';
       introText.remove();
       message.textContent = '';
@@ -93,10 +94,44 @@
       };
       imageContainer.appendChild(img);
 
+      const inicio = Date.now();
+      sessionStorage.setItem('inicioVisualizacao', inicio);
+
       setTimeout(() => {
         imageContainer.innerHTML = '';
-        message.textContent = 'A imagem não está mais disponível.';
-      }, 60000);
+        message.textContent = 'A imagem não está mais disponível. Retorne para o teste.';
+        sessionStorage.setItem('imagemVista', 'true');
+      }, TEMPO_LIMITE);
+    }
+
+    function mostrarFinal() {
+      startBtn.style.display = 'none';
+      introText.remove();
+      imageContainer.innerHTML = '';
+      message.textContent = 'A imagem não está mais disponível. Retorne para o teste.';
+    }
+
+    function verificarEstado() {
+      const inicio = sessionStorage.getItem('inicioVisualizacao');
+      const imagemVista = sessionStorage.getItem('imagemVista');
+
+      if (imagemVista) {
+        mostrarFinal();
+      } else if (inicio) {
+        const tempoPassado = Date.now() - parseInt(inicio);
+        if (tempoPassado < TEMPO_LIMITE) {
+          sessionStorage.setItem('imagemVista', 'true');
+          mostrarFinal();
+        } else {
+          mostrarFinal();
+        }
+      }
+    }
+
+    verificarEstado();
+
+    startBtn.addEventListener('click', () => {
+      mostrarImagem();
     });
   </script>
 </body>
